@@ -4,7 +4,7 @@ import Counter from '../../Counter/containers/CounterContainer'
 
 export class Login extends React.Component<void, Props, void> {
   render(){
-    console.log(this)
+
     return (  
       <div className='container'>
         <div className='row'>
