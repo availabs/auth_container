@@ -1,15 +1,16 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
+export const LOGIN_ID = 'LOGIN_ID'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function increment (value = 1) {
-  return {
-    type    : COUNTER_INCREMENT,
-    payload : value
+
+export function loginId (userId){
+  return{
+    type : LOGIN_ID,
+    payload : userId
   }
 }
 
@@ -21,27 +22,26 @@ export function increment (value = 1) {
     you'd probably want to dispatch an action of COUNTER_DOUBLE and let the
     reducer take care of this logic.  */
 
-export const doubleAsync = () => {
-  return (dispatch, getState) => {
+export const userIdUpdate = (userId) => {
+  return (dispatch) => {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        dispatch(increment(getState().counter))
-        resolve()
-      }, 200)
+      dispatch(loginId(userId))
+      resolve()
     })
   }
 }
 
 export const actions = {
-  increment,
-  doubleAsync
+  loginId,
+  userIdUpdate
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [COUNTER_INCREMENT] : (state, action) => state + action.payload
+  [LOGIN_ID] : (state,action) => {return action.payload}
+
 }
 
 // ------------------------------------

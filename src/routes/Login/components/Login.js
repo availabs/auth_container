@@ -2,7 +2,7 @@ import React from 'react'
 
 // import DuckImage from '../assets/Duck.jpg'
 // import './Login.scss'
-import { Router, Route, Link, browserHistory,withRouter } from 'react-router'
+import { withRouter } from 'react-router'
 import $ from 'jquery'
 
 export class Login extends React.Component<void, Props, void> {
@@ -28,7 +28,8 @@ export class Login extends React.Component<void, Props, void> {
       data: {loginName:this.state.loginName,password:this.state.password},
       success:function(responseText,foo,fullResponse){
         console.log(responseText,foo,fullResponse)
-        if(fullResponse.responseText == "Successful Login"){
+        if(typeof +fullResponse.responseText == "number"){
+          scope.props.userIdUpdate(+responseText)
           scope.props.router.push({'pathname':'/counter'})
         }
       }
@@ -36,6 +37,7 @@ export class Login extends React.Component<void, Props, void> {
   }
 
   logout(e){
+    var scope = this;
     e.preventDefault();
     $.ajax({
       type: "POST",
@@ -43,6 +45,10 @@ export class Login extends React.Component<void, Props, void> {
       data: {id:1},
       success:function(responseText,foo,fullResponse){
         console.log(responseText,foo,fullResponse)
+        if(responseText == "logged out"){
+          scope.props.userIdUpdate(-1)     
+          scope.props.router.push({'pathname':'/counter'})     
+        }
       }
     });
   }
@@ -56,6 +62,7 @@ export class Login extends React.Component<void, Props, void> {
   }
 
   render(){
+    console.log(this)
     return (  
       <div className='container'>
         <div className='row'>
