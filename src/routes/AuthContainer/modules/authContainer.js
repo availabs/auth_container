@@ -2,6 +2,7 @@
 // Constants
 // ------------------------------------
 export const LOGIN_ID = 'LOGIN_ID'
+export const AUTH_STATUS = 'AUTH_STATUS'
 
 // ------------------------------------
 // Actions
@@ -11,6 +12,13 @@ export function loginId (userId){
   return{
     type : LOGIN_ID,
     payload : userId
+  }
+}
+
+export function authStatus(status){
+  return{
+    type:AUTH_STATUS,
+    payload:status
   }
 }
 
@@ -31,17 +39,38 @@ export const userIdUpdate = (userId) => {
   }
 }
 
+export const authStatusUpdate = (status) => {
+  return (dispatch) => {
+    return new Promise((resolve) => {
+      dispatch(authStatus(status))
+      resolve()
+    })
+  }
+}
+
 export const actions = {
   loginId,
-  userIdUpdate
+  userIdUpdate,
+  authStatus,
+  authStatusUpdate
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [LOGIN_ID] : (state,action) => {return {id:action.payload.id,token:action.payload.token}}
-
+  [LOGIN_ID] : (state,action) => {
+    var newState = Object.assign({},state);
+    newState['id'] = action.payload.id;
+    newState['token'] =  action.payload.token
+    return newState;
+  },
+  [AUTH_STATUS] : (state,action) => {
+    var newState = Object.assign({},state);
+    console.log("auth status",action.payload)
+    newState['status'] = action.payload
+    return newState;
+  }
 }
 
 // ------------------------------------

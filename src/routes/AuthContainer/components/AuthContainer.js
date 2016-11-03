@@ -8,7 +8,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
     this.state = {
       "loginName":"",
       "password":"",
-      "auth":false
     };
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -29,7 +28,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
         console.log(responseText,foo,fullResponse)
         if(responseText.token){
           scope.props.userIdUpdate({id:responseText.id,token:responseText.token})
-          scope.props.router.push({'pathname':'/login'})
+          scope.props.router.push({'pathname':scope.props.redirect})
         }
       }
     });
@@ -60,7 +59,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
         if(responseText == "logged out"){
           scope.props.userIdUpdate(-1)     
-          scope.props.router.push({'pathname':'/login'})     
+          scope.props.router.push({'pathname':scope.props.redirect})     
         }
       }
     });
@@ -74,10 +73,13 @@ export class AuthContainer extends React.Component<void, Props, void> {
   }
 
   shouldComponentUpdate(nextProps,nextState){
-    console.log("should comp update",nextState,this.state)
+    //console.log(nextProps.authContainer,this.props.authContainer)
+    console.log((nextProps.authContainer.id != this.props.authContainer.id) ,
+      (nextProps.authContainer.token != this.props.authContainer.token),
+      (nextProps.authContainer.status != this.props.authContainer.status))
     if(nextProps.authContainer.id != this.props.authContainer.id ||
       nextProps.authContainer.token != this.props.authContainer.token ||
-      nextState.auth != this.state.auth){
+      nextProps.authContainer.status != this.props.authContainer.status){
       return true
     }
     else{
@@ -85,27 +87,23 @@ export class AuthContainer extends React.Component<void, Props, void> {
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillUpdate(){
     var scope = this;
     console.log(this)
-    if(nextProps.authContainer.id > 0){
-      scope.checkAuth(nextProps.authContainer.id,nextProps.authContainer.token,function(result){
-        if(result){
-          scope.setState({auth:true}) 
-        }
-        else{
-          scope.setState({auth:false})    
-        }
+    if(this.props.authContainer.id > 0 && this.props.authContainer.token){
+      scope.checkAuth(this.props.authContainer.id,this.props.authContainer.token,function(result){
+          scope.props.authStatusUpdate(result)
       })        
     }
   }
 
   render(){
     var scope = this;
+    console.log("auth this",this)
     if(this.props.authContainer.id > 0){
       var display = [];
 
-      if(this.state.auth){
+      if(this.props.authContainer.status){
         display.push(scope.props.children)  
       }
       else{

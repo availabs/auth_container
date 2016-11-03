@@ -4,7 +4,7 @@ import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer
 
 export class Login extends React.Component<void, Props, void> {
   render(){
-
+    console.log("login props",this.props)
     return (  
       <div className='container'>
         <div className='row'>
@@ -24,7 +24,7 @@ export class Login extends React.Component<void, Props, void> {
                 </a>
               </div>
               <div className='card-block'>
-                <AuthContainer>
+                <AuthContainer redirect="/login">
                   <h3>Testing </h3>
                 </AuthContainer>
               </div>

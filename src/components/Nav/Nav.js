@@ -21,6 +21,9 @@ export const Nav = () => (
           <li>
             <Link to='/login' className='nav-link'>Login</Link>
           </li>
+          <li>
+            <Link to="/testing" className='nav-link'>Testing</Link>
+          </li>
         </ul>
       </div>
     </div>
