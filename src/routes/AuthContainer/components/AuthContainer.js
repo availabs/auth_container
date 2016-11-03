@@ -27,7 +27,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
       success:function(responseText,foo,fullResponse){
         console.log(responseText,foo,fullResponse)
         if(responseText.token){
-          scope.props.userIdUpdate({id:responseText.id,token:responseText.token})
+          scope.props.userIdUpdate({id:responseText.id,token:responseText.token,status:responseText.status})
           scope.props.router.push({'pathname':scope.props.redirect})
         }
       }
@@ -42,7 +42,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
       url: "http://localhost:1337/checkauth",
       data: {id:id, token:token,content:"testing_content"},
       success:function(responseText,foo,fullResponse){
-        cb(responseText.auth)
+        cb(responseText.status)
       }
     });
   }
@@ -58,7 +58,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
       success:function(responseText,foo,fullResponse){
 
         if(responseText == "logged out"){
-          scope.props.userIdUpdate(-1)     
+          scope.props.userIdUpdate({id:-1,token:"",status:false})   
           scope.props.router.push({'pathname':scope.props.redirect})     
         }
       }
@@ -90,7 +90,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
   componentWillUpdate(){
     var scope = this;
     console.log(this)
-    if(this.props.authContainer.id > 0 && this.props.authContainer.token){
+    if(this.props.authContainer.id > 0){
       scope.checkAuth(this.props.authContainer.id,this.props.authContainer.token,function(result){
           scope.props.authStatusUpdate(result)
       })        
@@ -99,7 +99,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
   render(){
     var scope = this;
-    console.log("auth this",this)
+    console.log("auth this",this.props.redirect,this)
     if(this.props.authContainer.id > 0){
       var display = [];
 

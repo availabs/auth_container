@@ -4,7 +4,7 @@ import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer
 
 export class Login extends React.Component<void, Props, void> {
   render(){
-    console.log("login props",this.props)
+
     return (  
       <div className='container'>
         <div className='row'>

@@ -63,6 +63,7 @@ const ACTION_HANDLERS = {
     var newState = Object.assign({},state);
     newState['id'] = action.payload.id;
     newState['token'] =  action.payload.token
+    newState['status'] = action.payload.status
     return newState;
   },
   [AUTH_STATUS] : (state,action) => {
