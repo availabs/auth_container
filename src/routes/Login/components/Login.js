@@ -1,5 +1,5 @@
 import React from 'react'
-import Counter from '../../Counter/containers/CounterContainer'
+import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer'
 
 
 export class Login extends React.Component<void, Props, void> {
@@ -24,9 +24,9 @@ export class Login extends React.Component<void, Props, void> {
                 </a>
               </div>
               <div className='card-block'>
-                <Counter>
+                <AuthContainer>
                   <h3>Testing </h3>
-                </Counter>
+                </AuthContainer>
               </div>
             </div>
           </div>

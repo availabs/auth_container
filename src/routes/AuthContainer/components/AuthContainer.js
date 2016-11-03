@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import { withRouter } from 'react-router'
 
-export class Counter extends React.Component<void, Props, void> {
+export class AuthContainer extends React.Component<void, Props, void> {
   constructor () {
     super();
     this.state = {
@@ -55,7 +55,7 @@ export class Counter extends React.Component<void, Props, void> {
     $.ajax({
       type: "POST",
       url: "http://localhost:1337/logout",
-      data: {id:scope.props.counter.id, token:scope.props.counter.token},
+      data: {id:scope.props.authContainer.id, token:scope.props.authContainer.token},
       success:function(responseText,foo,fullResponse){
 
         if(responseText == "logged out"){
@@ -75,8 +75,8 @@ export class Counter extends React.Component<void, Props, void> {
 
   shouldComponentUpdate(nextProps,nextState){
     console.log("should comp update",nextState,this.state)
-    if(nextProps.counter.id != this.props.counter.id ||
-      nextProps.counter.token != this.props.counter.token ||
+    if(nextProps.authContainer.id != this.props.authContainer.id ||
+      nextProps.authContainer.token != this.props.authContainer.token ||
       nextState.auth != this.state.auth){
       return true
     }
@@ -88,8 +88,8 @@ export class Counter extends React.Component<void, Props, void> {
   componentWillReceiveProps(nextProps){
     var scope = this;
     console.log(this)
-    if(nextProps.counter.id > 0){
-      scope.checkAuth(nextProps.counter.id,nextProps.counter.token,function(result){
+    if(nextProps.authContainer.id > 0){
+      scope.checkAuth(nextProps.authContainer.id,nextProps.authContainer.token,function(result){
         if(result){
           scope.setState({auth:true}) 
         }
@@ -102,7 +102,7 @@ export class Counter extends React.Component<void, Props, void> {
 
   render(){
     var scope = this;
-    if(this.props.counter.id > 0){
+    if(this.props.authContainer.id > 0){
       var display = [];
 
       if(this.state.auth){
@@ -170,8 +170,8 @@ export class Counter extends React.Component<void, Props, void> {
     )
   }
 }
-Counter.propTypes = {
-  counter     : React.PropTypes.object.isRequired
+AuthContainer.propTypes = {
+  authContainer     : React.PropTypes.object.isRequired
 }
 
-export default withRouter(Counter)
+export default withRouter(AuthContainer)
