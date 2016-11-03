@@ -40,14 +40,14 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [LOGIN_ID] : (state,action) => {return action.payload}
+  [LOGIN_ID] : (state,action) => {return {id:action.payload.id,token:action.payload.token}}
 
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = 0
+const initialState = {}
 export default function counterReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

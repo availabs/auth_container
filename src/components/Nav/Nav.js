@@ -18,11 +18,8 @@ export const Nav = () => (
           <li className='nav-item' >
             <Link to='/' className='nav-link active'>Home</Link>
           </li>
-          <li className='nav-item'>
-            <Link to='/counter'  className='nav-link'>Counter</Link>
-          </li>
           <li>
-            <Link to='/login' className='nav-link'>Login </Link>
+            <Link to='/login' className='nav-link'>Login</Link>
           </li>
         </ul>
       </div>
