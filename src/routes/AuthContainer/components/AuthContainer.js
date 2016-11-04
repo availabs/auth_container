@@ -2,6 +2,10 @@ import React from 'react'
 import $ from 'jquery'
 import { withRouter } from 'react-router'
 
+import NoPermission from '../components/NoPermission'
+import LogoutForm from '../components/LogoutForm'
+import LoginForm from '../components/LoginForm'
+
 export class AuthContainer extends React.Component<void, Props, void> {
   constructor () {
     super();
@@ -17,9 +21,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
   onSubmit(e){
     var scope = this;
-
     e.preventDefault()
-
     $.ajax({
       type: "POST",
       url: "http://localhost:1337/login/auth",
@@ -47,7 +49,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
     });
   }
 
-
   logout(e){
     var scope = this;
     e.preventDefault();
@@ -56,7 +57,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
       url: "http://localhost:1337/logout",
       data: {id:scope.props.authContainer.id, token:scope.props.authContainer.token},
       success:function(responseText,foo,fullResponse){
-
         if(responseText == "logged out"){
           scope.props.userIdUpdate({id:-1,token:"",status:false})   
           scope.props.router.push({'pathname':scope.props.redirect})     
@@ -66,7 +66,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
   }
 
   onChange(e){
-
     var newState = {};
     newState[e.target.id] = e.target.value
     this.setState(newState)
@@ -74,9 +73,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
   shouldComponentUpdate(nextProps,nextState){
     //console.log(nextProps.authContainer,this.props.authContainer)
-    console.log((nextProps.authContainer.id != this.props.authContainer.id) ,
-      (nextProps.authContainer.token != this.props.authContainer.token),
-      (nextProps.authContainer.status != this.props.authContainer.status))
     if(nextProps.authContainer.id != this.props.authContainer.id ||
       nextProps.authContainer.token != this.props.authContainer.token ||
       nextProps.authContainer.status != this.props.authContainer.status){
@@ -107,56 +103,13 @@ export class AuthContainer extends React.Component<void, Props, void> {
         display.push(scope.props.children)  
       }
       else{
-        display.push(             
-                <div className="card-block">
-                  <h3>You do not have permission to view this content</h3>
-                </div>)          
+        display.push(<NoPermission />)          
       }
 
-      display.push(             
-              <div className="card-block">
-               <form  onClick={this.logout} className="form-signin">
-                  <div className="panel-footer" id="logout">
-                    <button  className="btn btn-block btn-lg btn-danger">
-                      LOGOUT
-                    </button>
-                  </div>
-                </form>
-              </div>)  
+      display.push(<LogoutForm />)  
     }
     else{
-      var display = (
-              <div className='card-block'>
-                  <h4 className='card-title' style={{ textAlign: 'center' }}>Sign In</h4>
-                   <form className="form-signin">
-                      <fieldset>
-                        <div className="form-group">
-                          <div className="input-group">
-                              <label className="input-group-addon" htmlFor="loginName">
-                                   <input  onChange={this.onChange} id="loginName" name="loginName" type="text"
-                                  className="form-control input-lg"  placeholder="Username"
-                                  required/>                                   
-                              </label>
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <div className="input-group">
-                              <label className="input-group-addon" htmlFor="password">
-                              <input onChange={this.onChange} id="password" name="password" type="password"
-                                  className="form-control input-lg" placeholder="Password"
-                                  required/>                                       
-                              </label>
-                          </div>
-                        </div>
-                      </fieldset>
-                      <div className="panel-footer" id="login-footer">
-                        <button onClick={this.onSubmit} className="btn btn-block btn-lg btn-success">
-                          Sign In
-                        </button>
-                      </div>
-                    </form>
-              </div>
-              )
+      var display = (<LoginForm onChange={this.onChange} onSubmit={this.onSubmit}/> )
     }
 
     return(
