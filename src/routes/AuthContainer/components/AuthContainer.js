@@ -27,8 +27,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
       type: "POST",
       url: url,
       data: {email:this.state.email,password:this.state.password,confirmpassword:this.state.confirmpassword},
-      success:function(responseText,foo,fullResponse){
-        console.log(responseText,foo,fullResponse)
+      success:function(responseText,requestStatus,fullResponse){
+        console.log(responseText,requestStatus,fullResponse)
         if(responseText.token){
           scope.props.userIdUpdate({id:responseText.id,token:responseText.token,status:responseText.status})
           scope.props.router.push({'pathname':scope.props.redirect})
@@ -44,7 +44,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
       type: "POST",
       url: "http://localhost:1337/checkauth",
       data: {id:id, token:token,content:"testing_content"},
-      success:function(responseText,foo,fullResponse){
+      success:function(responseText,requestStatus,fullResponse){
         cb(responseText.status)
       }
     });
@@ -57,7 +57,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
       type: "POST",
       url: "http://localhost:1337/logout",
       data: {id:scope.props.authContainer.id, token:scope.props.authContainer.token},
-      success:function(responseText,foo,fullResponse){
+      success:function(responseText,requestStatus,fullResponse){
         if(responseText == "logged out"){
           scope.props.userIdUpdate({id:-1,token:"",status:false})   
           scope.props.router.push({'pathname':scope.props.redirect})     

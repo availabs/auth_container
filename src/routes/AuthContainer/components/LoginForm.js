@@ -23,12 +23,18 @@ export class LoginForm extends React.Component<void, Props, void> {
               </div>
             </fieldset>
             <div className="panel-footer" id="login-footer">
-              <button onClick={this.props.onSubmit.bind(null,"http://localhost:1337/login/auth")} className="btn btn-block btn-lg btn-success">
-                Sign In
-              </button>
-              <button id="loginSwitch" className="btn btn-block" onClick={this.props.formChange}>
-                Need to create an account?
-              </button>
+              <div className="row" style={{marginTop:"15px"}}>
+                <div className="col-xs-4">
+                  <button onClick={this.props.onSubmit.bind(null,"http://localhost:1337/login/auth")} className="btn btn-block btn-lg btn-success">
+                    Sign In
+                  </button> 
+                </div>
+                <div className="col-xs-4 offset-xs-3">   
+                  <button id="loginSwitch" className="btn btn-block" onClick={this.props.formChange}>
+                    Need to create an account?
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
       </div>
