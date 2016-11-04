@@ -4,14 +4,15 @@ import { withRouter } from 'react-router'
 
 import NoPermission from '../components/NoPermission'
 import LogoutForm from '../components/LogoutForm'
-import LoginForm from '../components/LoginForm'
+import LoginSignupContainer from '../components/LoginSignupContainer'
 
 export class AuthContainer extends React.Component<void, Props, void> {
   constructor () {
     super();
     this.state = {
-      "loginName":"",
+      "email":"",
       "password":"",
+      "confirmpassword":""
     };
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -19,13 +20,13 @@ export class AuthContainer extends React.Component<void, Props, void> {
     this.checkAuth = this.checkAuth.bind(this)
   }
 
-  onSubmit(e){
+  onSubmit(url,e){
     var scope = this;
     e.preventDefault()
     $.ajax({
       type: "POST",
-      url: "http://localhost:1337/login/auth",
-      data: {loginName:this.state.loginName,password:this.state.password},
+      url: url,
+      data: {email:this.state.email,password:this.state.password,confirmpassword:this.state.confirmpassword},
       success:function(responseText,foo,fullResponse){
         console.log(responseText,foo,fullResponse)
         if(responseText.token){
@@ -103,13 +104,13 @@ export class AuthContainer extends React.Component<void, Props, void> {
         display.push(scope.props.children)  
       }
       else{
-        display.push(<NoPermission />)          
+        display.push(<NoPermission key="noPermission"/>)          
       }
 
-      display.push(<LogoutForm />)  
+      display.push(<LogoutForm key="logoutForm" logout={this.logout}/>)  
     }
     else{
-      var display = (<LoginForm onChange={this.onChange} onSubmit={this.onSubmit}/> )
+      var display = (<LoginSignupContainer key="loginOrSignupForm" onChange={this.onChange} onSubmit={this.onSubmit}/> )
     }
 
     return(

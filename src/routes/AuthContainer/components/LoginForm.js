@@ -9,26 +9,25 @@ export class LoginForm extends React.Component<void, Props, void> {
             <fieldset>
               <div className="form-group">
                 <div className="input-group">
-                    <label className="input-group-addon" htmlFor="loginName">
-                         <input  onChange={this.props.onChange} id="loginName" name="loginName" type="text"
-                        className="form-control input-lg"  placeholder="Username"
-                        required/>                                   
-                    </label>
+                   <input  onChange={this.props.onChange} id="email" name="email" type="text"
+                  className="form-control input-lg"  placeholder="Username/Email"
+                  required/>                                   
                 </div>
               </div>
               <div className="form-group">
                 <div className="input-group">
-                    <label className="input-group-addon" htmlFor="password">
-                    <input onChange={this.props.onChange} id="password" name="password" type="password"
-                        className="form-control input-lg" placeholder="Password"
-                        required/>                                       
-                    </label>
+                  <input onChange={this.props.onChange} id="password" name="password" type="password"
+                      className="form-control input-lg" placeholder="Password"
+                      required/>                                       
                 </div>
               </div>
             </fieldset>
             <div className="panel-footer" id="login-footer">
-              <button onClick={this.props.onSubmit} className="btn btn-block btn-lg btn-success">
+              <button onClick={this.props.onSubmit.bind(null,"http://localhost:1337/login/auth")} className="btn btn-block btn-lg btn-success">
                 Sign In
+              </button>
+              <button id="loginSwitch" className="btn btn-block" onClick={this.props.formChange}>
+                Need to create an account?
               </button>
             </div>
           </form>
