@@ -1,5 +1,5 @@
 import React from 'react'
-import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer'
+import AuthContainer from '../../AuthContainer/components/AuthContainer'
 
 
 export class Testing extends React.Component<void, Props, void> {

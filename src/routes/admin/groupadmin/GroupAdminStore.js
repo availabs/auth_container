@@ -4,7 +4,7 @@ var AppDispatcher = require('../../../components/utils/AppDispatcher'),
     GroupAdminConstants = require('../../../components/constants/GroupAdminConstants'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign'),
-    UserStore = require("../../AuthContainer/modules/authContainer.js"),
+    UserStore = require("../../AuthContainer/modules/UserStore"),
 
     CHANGE_EVENT = 'change';
 

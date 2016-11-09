@@ -4,7 +4,7 @@ var React = require('react'),
     assign = require("object-assign"),
 
     GroupAdminStore = require("../groupadmin/GroupAdminStore"),
-    UserStore = require("../../AuthContainer/modules/authContainer.js"),
+    UserStore = require("../../AuthContainer/modules/UserStore"),
 
     GroupAdminActions = require("../groupadmin/GroupAdminActions"),
 

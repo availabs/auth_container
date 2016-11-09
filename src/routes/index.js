@@ -14,29 +14,23 @@ export const createRoutes = (store) => ([
   {
     path        : '/',
     component   : CoreLayout,
-    indexRoute  : Home,
-    childRoutes : [
-      Login(store),
-      Testing(store)
-    ]
+    indexRoute  : Home
+  },
+  {
+    path        : '/login',
+    component   : CoreLayout,
+    indexRoute  : Login   
+  },
+  {
+    path        : '/testing',
+    component   : CoreLayout,
+    indexRoute  : Testing   
   },
   {
     path        : '/groupadmin',
     component   : CoreLayout,
     indexRoute  : GroupAdminPage   
   }
-  // {
-  //   path        : '/useradmin',
-  //   component   : CoreLayout,
-  //   indexRoute  : Home,
-  //   childRoutes : []  
-  // },
-  // {
-  //   path        : '/sysadmin',
-  //   component   : CoreLayout,
-  //   indexRoute  : Home,
-  //   childRoutes : []  
-  // }
 ])
 
 /*  Note: childRoutes can be chunked or otherwise loaded programmatically
