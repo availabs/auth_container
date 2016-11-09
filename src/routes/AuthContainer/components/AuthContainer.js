@@ -42,7 +42,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
     var returnValue;
     $.ajax({
       type: "POST",
-      url: "http://localhost:1337/checkauth",
+      url: "http://test.com:1337/checkauth",
       data: {id:id, token:token,content:"testing_content"},
       success:function(responseText,requestStatus,fullResponse){
         cb(responseText.status)
@@ -55,7 +55,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
     e.preventDefault();
     $.ajax({
       type: "POST",
-      url: "http://localhost:1337/logout",
+      url: "http://test.com:1337/logout",
       data: {id:scope.props.authContainer.id, token:scope.props.authContainer.token},
       success:function(responseText,requestStatus,fullResponse){
         if(responseText == "logged out"){
