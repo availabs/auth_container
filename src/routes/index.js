@@ -3,18 +3,41 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
 import Login from './Login/index'
 import Testing from './Testing/index'
+import GroupAdmin from './admin/groupadmin/GroupAdmin.react.js'
+
+var GroupAdminPage = {component: GroupAdmin}
+
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
 
-export const createRoutes = (store) => ({
-  path        : '/',
-  component   : CoreLayout,
-  indexRoute  : Home,
-  childRoutes : [
-    Login(store),
-    Testing(store)
-  ]
-})
+export const createRoutes = (store) => ([
+  {
+    path        : '/',
+    component   : CoreLayout,
+    indexRoute  : Home,
+    childRoutes : [
+      Login(store),
+      Testing(store)
+    ]
+  },
+  {
+    path        : '/groupadmin',
+    component   : CoreLayout,
+    indexRoute  : GroupAdminPage   
+  }
+  // {
+  //   path        : '/useradmin',
+  //   component   : CoreLayout,
+  //   indexRoute  : Home,
+  //   childRoutes : []  
+  // },
+  // {
+  //   path        : '/sysadmin',
+  //   component   : CoreLayout,
+  //   indexRoute  : Home,
+  //   childRoutes : []  
+  // }
+])
 
 /*  Note: childRoutes can be chunked or otherwise loaded programmatically
     using getChildRoutes with the following signature:

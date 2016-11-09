@@ -13,7 +13,6 @@ export class HomeView extends React.Component<void, Props, void> {
       </div>
     )
   }
-
 }
 
 

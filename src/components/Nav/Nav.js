@@ -24,6 +24,9 @@ export const Nav = () => (
           <li>
             <Link to="/testing" className='nav-link'>Testing</Link>
           </li>
+          <li>
+              <Link to="/groupadmin" className='nav-link'>GroupAdmin</Link>
+          </li>
         </ul>
       </div>
     </div>

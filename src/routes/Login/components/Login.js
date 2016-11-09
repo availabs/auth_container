@@ -4,7 +4,6 @@ import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer
 
 export class Login extends React.Component<void, Props, void> {
   render(){
-
     return (  
       <div className='container'>
         <div className='row'>
@@ -21,14 +20,7 @@ export class Login extends React.Component<void, Props, void> {
         </div>
       </div>
     )
-
   }
-
-
-
 }
-
-
-
 
 export default Login
