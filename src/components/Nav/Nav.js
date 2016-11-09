@@ -18,13 +18,13 @@ export const Nav = () => (
           <li className='nav-item' >
             <Link to='/' className='nav-link active'>Home</Link>
           </li>
-          <li>
+          <li className='nav-item'>
             <Link to='/login' className='nav-link'>Login</Link>
           </li>
-          <li>
+          <li className='nav-item'>
             <Link to="/testing" className='nav-link'>Testing</Link>
           </li>
-          <li>
+          <li className='nav-item'>
               <Link to="/groupadmin" className='nav-link'>GroupAdmin</Link>
           </li>
         </ul>
