@@ -3,14 +3,30 @@ var SailsWebApi = require('../../../components/utils/SailsWebApi'),
     ErrorMessageConstants = require('../../../components/constants/ErrorMessageConstants'),
     GroupAdminConstants = require('../../../components/constants/GroupAdminConstants');
 
+import $ from 'jquery'
+
+var AUTH_SERVER_URL = "http://test.com:1337/"
+
 module.exports = {
    getAllGroups: function() {
-       SailsWebApi.getAllGroups(function(error, groups) {
-           AppDispatcher.dispatch({
-               type: GroupAdminConstants.GET_ALL_GROUPS,
-               groups: groups
-           })
-       })
+
+    $.ajax({
+      type: "GET",
+      url: (AUTH_SERVER_URL + "groups"),
+      success:function(responseText,requestStatus,fullResponse){
+        console.log("new route getGroups", responseText)
+        AppDispatcher.dispatch({
+           type: GroupAdminConstants.GET_ALL_GROUPS,
+           groups: responseText.groups
+        })
+      }
+    });
+       // SailsWebApi.getAllGroups(function(error, groups) {
+       //     AppDispatcher.dispatch({
+       //         type: GroupAdminConstants.GET_ALL_GROUPS,
+       //         groups: groups
+       //     })
+       // })
    },
    setEditTarget: function(group) {
        AppDispatcher.dispatch({

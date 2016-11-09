@@ -2,7 +2,7 @@
 
 var React = require('react'),
 
-    GroupAdminActions = require('../groupadmin//GroupAdminActions');
+    GroupAdminActions = require('../groupadmin/GroupAdminActions');
 
 import $ from 'jquery'
 

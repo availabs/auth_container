@@ -15,6 +15,7 @@ class GroupAdmin extends React.Component<void, Props, void> {
     constructor () {
         super();
         this.state = getState();
+        this.onChange = this.onChange.bind(this)
     }
 
     componentDidMount() {
@@ -34,6 +35,7 @@ class GroupAdmin extends React.Component<void, Props, void> {
     }
 
     render() {
+        console.log(GroupAdminStore.getAllGroups())
         return (
             <div title="Group Admin">
                 <div className="col-lg-10">

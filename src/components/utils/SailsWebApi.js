@@ -523,7 +523,7 @@ console.log("<SailsWebApi.getPeakData>",url);
 
 function wrapCB(cb) {
     return function(error, data) {
-        if (error) { error = JSON.parse(error.responseText || error); }
+        //if (error) { error = JSON.parse(error.responseText || error); }
         cb(error, data);
         checkLoading(false);
     }
