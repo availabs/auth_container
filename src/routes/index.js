@@ -5,9 +5,11 @@ import Login from './Login/index'
 import Testing from './Testing/index'
 import GroupAdmin from './admin/groupadmin/GroupAdmin.react.js'
 import UserAdmin from './admin/useradmin/UserAdmin.react.js'
+import SysAdmin from './admin/sysadmin/SysAdmin.react.js'
 
 var GroupAdminPage = {component: GroupAdmin}
 var UserAdminPage = {component: UserAdmin}
+var SysAdminPage = {component: SysAdmin}
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -37,6 +39,11 @@ export const createRoutes = (store) => ([
     path        : '/useradmin',
     component   : CoreLayout,
     indexRoute  : UserAdminPage   
+  },
+  {
+    path        : '/sysadmin',
+    component   : CoreLayout,
+    indexRoute  : SysAdminPage   
   }
 ])
 

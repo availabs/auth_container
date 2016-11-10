@@ -1,19 +1,11 @@
-'use strict';
-
-var React = require('react'),
-
-    GroupAdminActions = require('../groupadmin/GroupAdminActions');
-
-import $ from 'jquery'
+import React from 'react'
+import GroupAdminActions from '../groupadmin/GroupAdminActions'
+import { Modal } from 'react-bootstrap'
 
 var GroupRow = React.createClass({
 
     handleDeleteClick: function() {
-        var modal = $("#deleteModal");
-        modal.find('.modal-body h4')
-            .text("Are you sure you want to delete "+this.props.group.name+"?");
-        modal.data(this.props.group)
-            .modal();
+        this.props.openDelete(this.props.group)
     },
 
     handleEditClick: function() {
@@ -41,16 +33,37 @@ var GroupRow = React.createClass({
     }
 })
 
-module.exports = React.createClass({
+class GroupTable extends React.Component<void, Props, void> {
+    constructor () {
+        super();
+        this.state = { 
+            showModal: false,
+            deleteGroup:null
+         };
+        this.close = this.close.bind(this)
+        this.open = this.open.bind(this)
+        this.deleteGroup = this.deleteGroup.bind(this)
+    }
 
-    deleteGroup: function() {
-        GroupAdminActions.deleteGroup($("#deleteModal").data());
-    },
+    deleteGroup() {
+        console.log("log before delete GROUP table", this.state.deleteGroup)
+        GroupAdminActions.deleteGroup(this.state.deleteGroup);
+        this.close()
+    }
 
-    render: function() {
+    close() {
+        this.setState({ showModal: false, deleteGroup:null });
+    }
+
+    open(deleteGroup) {
+        this.setState({ showModal: true, deleteGroup: deleteGroup });
+    }
+
+    render() {
+        var scope = this;
         var rows = this.props.groups.map(function(group, i) {
             return (
-                <GroupRow key={ i } group={ group } />
+                <GroupRow openDelete={scope.open} key={ i } group={ group } />
             )
         }, this);
         
@@ -72,28 +85,23 @@ module.exports = React.createClass({
                         { rows }
                     </tbody>
                 </table>
-                <div id="deleteModal" className="modal fade" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <h4 className="modal-title" id="myModalLabel2">Delete User</h4>
+                    </Modal.Header>
 
-                            <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 className="modal-title" id="myModalLabel2">Delete Group</h4>
-                            </div>
+                     <Modal.Body>
+                        <h4>Are you sure you want to delete?</h4>
+                    </Modal.Body>
 
-                            <div className="modal-body">
-                                <h4>Are you sure you want to delete?</h4>
-                            </div>
-
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn btn-danger" onClick={ this.deleteGroup } data-dismiss="modal">Delete</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                    <Modal.Footer>
+                        <button type="button" className="btn btn-primary" onClick={ this.close }>Cancel</button>
+                        <button type="button" className="btn btn-danger" onClick={ this.deleteGroup } data-dismiss="modal">Delete</button>
+                    </Modal.Footer>
+                </Modal> 
             </div>
         )
     }
-})
+}
+
+export default GroupTable

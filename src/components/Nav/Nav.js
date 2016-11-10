@@ -30,6 +30,9 @@ export const Nav = () => (
           <li className='nav-item'>
               <Link to="/useradmin" className='nav-link'>UserAdmin</Link>
           </li>
+          <li className='nav-item'>
+              <Link to="/sysadmin" className='nav-link'>SysAdmin</Link>
+          </li>
         </ul>
       </div>
     </div>

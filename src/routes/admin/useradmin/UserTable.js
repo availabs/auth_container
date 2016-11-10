@@ -1,6 +1,5 @@
 import React from 'react'
 import UserActions from '../../AuthContainer/modules/UserActions'
-import $ from 'jquery'
 import { Modal } from 'react-bootstrap'
 
 var UserRow = React.createClass({
@@ -49,8 +48,8 @@ class UserTable extends React.Component<void, Props, void> {
         this.deleteUser = this.deleteUser.bind(this)
     }
 
-    deleteUser(d) {
-        console.log("log before delete user table", this.state.deleteUser)
+    deleteUser() {
+        console.log("log before delete USER table", this.state.deleteUser)
         UserActions.deleteUser(this.state.deleteUser);
         this.close()
     }
