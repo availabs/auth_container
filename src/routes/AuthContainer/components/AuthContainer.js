@@ -33,8 +33,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
       success:function(responseText,requestStatus,fullResponse){
         //console.log("Submitted login/signup", responseText,requestStatus,fullResponse)
         if(responseText.token){
-          console.log("Successful login/signup, recieved token",responseText.token)
-          UserActions.setSessionUser({id:responseText.id,token:responseText.token,status:responseText.status})
+          //console.log("Successful login/signup, recieved token",responseText.token)
+          UserActions.setSessionUser(responseText)
           scope.props.router.push({'pathname':scope.props.redirect})
         }
       }
@@ -86,7 +86,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
     //console.log("component will update",this)
     if(user.id > 0){
       scope.checkAuth(function(result){
-          UserActions.setSessionUser({id:user.id,token:user.token,status:result})
+          user.status = result;
+          UserActions.setSessionUser(user)
       })        
     }
   }

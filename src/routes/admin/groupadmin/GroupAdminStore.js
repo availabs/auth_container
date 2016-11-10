@@ -42,10 +42,10 @@ var GroupAdminStore = assign({}, EventEmitter.prototype, {
 });
 
 GroupAdminStore.dispatchToken = AppDispatcher.register(function(action) {
-console.log("getting all groups",action)
     switch(action.type) {
 
     case GroupAdminConstants.GET_ALL_GROUPS:
+        console.log("getting all groups group-store",action)
         GROUPS = action.groups;
         GroupAdminStore.emitChange();
         break;
