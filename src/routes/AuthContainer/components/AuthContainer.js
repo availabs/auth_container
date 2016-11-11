@@ -19,7 +19,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
     };
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
-    this.logout = this.logout.bind(this)
     this.checkAuth = this.checkAuth.bind(this)
   }
 
@@ -33,8 +32,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
       success:function(responseText,requestStatus,fullResponse){
         //console.log("Submitted login/signup", responseText,requestStatus,fullResponse)
         if(responseText.token){
-          console.log("Successful login/signup, recieved token",responseText.token)
-          UserActions.setSessionUser({id:responseText.id,token:responseText.token,status:responseText.status})
+          //console.log("Successful login/signup, recieved token",responseText.token)
+          UserActions.setSessionUser(responseText)
           scope.props.router.push({'pathname':scope.props.redirect})
         }
       }
@@ -57,23 +56,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
     });
   }
 
-  logout(e){
-    var user = UserStore.getSessionUser()
-    var scope = this;
-    e.preventDefault();
-    $.ajax({
-      type: "POST",
-      url: "http://test.com:1337/logout",
-      data: {id:user.id, token:user.token},
-      success:function(responseText,requestStatus,fullResponse){
-        if(responseText == "logged out"){
-          UserActions.setSessionUser({id:-1,token:"",status:false})   
-          scope.props.router.push({'pathname':scope.props.redirect})     
-        }
-      }
-    });
-  }
-
   onChange(e){
     var newState = {};
     newState[e.target.id] = e.target.value
@@ -86,7 +68,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
     //console.log("component will update",this)
     if(user.id > 0){
       scope.checkAuth(function(result){
-          UserActions.setSessionUser({id:user.id,token:user.token,status:result})
+          user.status = result;
+          UserActions.setSessionUser(user)
       })        
     }
   }
@@ -105,18 +88,14 @@ export class AuthContainer extends React.Component<void, Props, void> {
       else{
         display.push(<NoPermission key="noPermission"/>)          
       }
-
-      display.push(<LogoutForm key="logoutForm" logout={this.logout}/>)  
     }
     else{
       var display = (<LoginSignupContainer key="loginOrSignupForm" onChange={this.onChange} onSubmit={this.onSubmit}/> )
     }
 
     return(
-      <div className='container'>
-        <div style={{margin: '0 auto',color:"red"}}>
-          {display}
-        </div>
+      <div >
+        {display}
       </div>
     )
   }

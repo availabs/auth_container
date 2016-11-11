@@ -1,7 +1,7 @@
 var SailsWebApi = require('../../../components/utils/SailsWebApi'),
     AppDispatcher = require('../../../components/utils/AppDispatcher'),
     ErrorMessageConstants = require('../../../components/constants/ErrorMessageConstants'),
-    UserConstants = require('../../../components/constants/UserConstants');
+    GroupAdminConstants = require('../../../components/constants/GroupAdminConstants');
 
 function getCreateUserErrorMessage(error) {
     if (error.error.invalidAttributes['"loginName"']) {
@@ -14,14 +14,12 @@ function getCreateUserErrorMessage(error) {
 
 module.exports = {
    setSessionUser: function(user) {
-      console.log("Testing set session user",user)
        AppDispatcher.dispatch({
            type: UserConstants.SET_SESSION_USER,
            user: user
        })
    },
    getAllUsers: function() {
-      console.log("Testing get all users")
        SailsWebApi.getAllUsers(function(error, users) {
            AppDispatcher.dispatch({
                type: UserConstants.GET_ALL_USERS,

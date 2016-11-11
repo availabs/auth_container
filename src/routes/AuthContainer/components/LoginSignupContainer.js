@@ -28,7 +28,9 @@ export class LoginSignupContainer extends React.Component<void, Props, void> {
       return (<SignupForm formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />)
     }
     else{
-      return (<LoginForm formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />)
+      return (
+        <LoginForm formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />
+        )
     }
 
   }

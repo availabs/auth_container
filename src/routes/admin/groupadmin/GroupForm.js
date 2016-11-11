@@ -16,14 +16,18 @@ var React = require('react'),
 
 import $ from 'jquery'
 
+var defaultState = {
+            name: "Name",
+            displayName: "Display_Name",
+            type: "",
+        }
+
 export class PanelBody extends React.Component<void, Props, void> {
     constructor () {
         super();
-        this.state = {
-            name: "ryan",
-            displayName: "Ryan",
-            type: "default",
-        }
+        this.state = defaultState;
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentWillReceiveProps(newProps) {
@@ -35,7 +39,7 @@ export class PanelBody extends React.Component<void, Props, void> {
             })
         }
         else if (newProps.mode == "create") {
-            this.setState(this.getInitialState());
+            this.setState(defaultState);
         }
     }
 
@@ -60,7 +64,7 @@ export class PanelBody extends React.Component<void, Props, void> {
             var data = assign({}, this.props.editTarget, group);
             GroupAdminActions.updateGroup(data);
         }
-        this.setState(this.getInitialState());
+        this.setState(defaultState);
     }
     handleChange(e) {
         var value = $("#"+e.target.id).val(),
@@ -150,6 +154,12 @@ function checkGroupPerm(user, group) {
 }
 
 export class PanelHeading extends React.Component<void, Props, void> {
+    constructor () {
+        super();
+
+        this.createMode = this.createMode.bind(this)
+        this.editMode = this.editMode.bind(this)
+    }
 
     createMode() {
         this.props.clickHandler("create");
@@ -188,6 +198,8 @@ export class GroupForm extends React.Component<void, Props, void> {
     constructor () {
         super();
         this.state = { mode: "create" };
+
+        this.handleClick = this.handleClick.bind(this)
     }
 
     componentWillReceiveProps(newProps) {

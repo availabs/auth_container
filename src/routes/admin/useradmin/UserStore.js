@@ -49,13 +49,11 @@ var UserStore = assign({}, EventEmitter.prototype, {
 });
 
 UserStore.dispatchToken = AppDispatcher.register(function(action) {
-console.log("ryan testing new user store.",action);
-
     switch(action.type) {
 
     case UserConstants.SET_SESSION_USER:
         SESSION_USER = action.user;
-        //UserStore.emitChange();
+        UserStore.emitChange();
         break;
 
     case UserConstants.GET_ALL_USERS:

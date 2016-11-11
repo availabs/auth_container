@@ -1,30 +1,32 @@
 import React from 'react'
-import GroupAdminActions from '../groupadmin/GroupAdminActions'
+import UserActions from '../../AuthContainer/modules/UserActions'
 import { Modal } from 'react-bootstrap'
 
-var GroupRow = React.createClass({
+var UserRow = React.createClass({
 
     handleDeleteClick: function() {
-        this.props.openDelete(this.props.group)
+        this.props.openDelete(this.props.user)
     },
 
     handleEditClick: function() {
-        GroupAdminActions.setEditTarget(this.props.group);
+        UserActions.setEditTarget(this.props.user);
     },
 
     render: function() {
         return (
             <tr onClick={ this.handleClick } className={ this.props.classString } >
-                <td>{ this.props.group.name }</td>
-                <td>{ this.props.group.displayName }</td>
-                <td>{ this.props.group.type }</td>
+                <td>{ this.props.user.userName }</td>
+                <td>{ this.props.user.loginName }</td>
+                <td>{ this.props.user.email }</td>
+                <td>{ this.props.user.group }</td>
+                <td>{ this.props.user.admin.toString() }</td>
                 <td>
-                    <button onClick={ this.handleEditClick } data-group={ this.props.group } className="btn btn-xs btn-primary">
+                    <button onClick={ this.handleEditClick } data-user={ this.props.user } className="btn btn-xs btn-primary">
                         Update
                     </button>
                 </td>
                 <td>
-                    <button onClick={ this.handleDeleteClick } data-group={ this.props.group } className="btn btn-xs btn-danger">
+                    <button onClick={ this.handleDeleteClick } data-user={ this.props.user } className="btn btn-xs btn-danger">
                         Delete
                     </button>
                 </td>
@@ -33,54 +35,54 @@ var GroupRow = React.createClass({
     }
 })
 
-class GroupTable extends React.Component<void, Props, void> {
+class UserTable extends React.Component<void, Props, void> {
     constructor () {
         super();
+
         this.state = { 
             showModal: false,
-            deleteGroup:null
+            deleteUser:null
          };
         this.close = this.close.bind(this)
         this.open = this.open.bind(this)
-        this.deleteGroup = this.deleteGroup.bind(this)
+        this.deleteUser = this.deleteUser.bind(this)
     }
 
-    deleteGroup() {
-        console.log("log before delete GROUP table", this.state.deleteGroup)
-        GroupAdminActions.deleteGroup(this.state.deleteGroup);
+    deleteUser() {
+        console.log("log before delete USER table", this.state.deleteUser)
+        UserActions.deleteUser(this.state.deleteUser);
         this.close()
     }
 
     close() {
-        this.setState({ showModal: false, deleteGroup:null });
+        this.setState({ showModal: false, deleteUser:null });
     }
 
-    open(deleteGroup) {
-        this.setState({ showModal: true, deleteGroup: deleteGroup });
+    open(deleteUser) {
+        this.setState({ showModal: true, deleteUser: deleteUser });
     }
-
     render() {
         var scope = this;
-        var rows = this.props.groups.map(function(group, i) {
+        var rows = this.props.users.map(function(user) {
             return (
-                <GroupRow openDelete={scope.open} key={ i } group={ group } />
+                <UserRow openDelete={scope.open} key={ user.id } user={ user } />
             )
         }, this);
-        
+
         return (
             <div className="panel panel-default">
                 <table className="table table-striped table-hover">
-
                     <thead>
                         <tr>
-                            <th>Group Name</th>
-                            <th>Display Name</th>
-                            <th>Group Type</th>
+                            <th>User Name</th>
+                            <th>Login Name</th>
+                            <th>Email</th>
+                            <th>Group</th>
+                            <th>Administrator</th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
-
                     <tbody>
                         { rows }
                     </tbody>
@@ -96,12 +98,12 @@ class GroupTable extends React.Component<void, Props, void> {
 
                     <Modal.Footer>
                         <button type="button" className="btn btn-primary" onClick={ this.close }>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={ this.deleteGroup } data-dismiss="modal">Delete</button>
+                        <button type="button" className="btn btn-danger" onClick={ this.deleteUser } data-dismiss="modal">Delete</button>
                     </Modal.Footer>
                 </Modal> 
             </div>
         )
     }
-}
+};
 
-export default GroupTable
+export default UserTable

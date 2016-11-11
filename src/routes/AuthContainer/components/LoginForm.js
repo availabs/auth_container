@@ -4,7 +4,7 @@ export class LoginForm extends React.Component<void, Props, void> {
   render(){
     return (
       <div className='card-block'>
-        <h4 className='card-title' style={{ textAlign: 'center' }}>Sign In</h4>
+        <h4 className='card-title'>Permission is required to access this content</h4>
          <form className="form-signin">
             <fieldset>
               <div className="form-group">

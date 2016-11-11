@@ -530,12 +530,13 @@ function wrapCB(cb) {
 }
 
 function SailsCRUD() {
-    var URL = null,
+    console.log("1st",URL)
+    var URL = "http://test.com:1337",
         method = "GET",
         response = function(d) { return JSON.parse(d.responseText); };
 
     function crud(model) {
-        URL = "/"+model;
+        URL = "http://test.com:1337/"+model;
         return crud;
     }
     crud.create = function(data, cb) {
@@ -552,6 +553,7 @@ function SailsCRUD() {
         send(cb);
     }
     crud.update = function(id, data, cb) {
+        console.log("2nd",URL)
         method = "PUT";
         URL += "/"+id;
         send(data, cb);
@@ -568,6 +570,7 @@ function SailsCRUD() {
     return crud;
 
     function send(data, cb) {
+        console.log("3rd",URL,method)
         var xhr = d3.xhr(URL)
             .response(response);
 
