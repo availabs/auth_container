@@ -9,6 +9,8 @@ import LoginSignupContainer from '../components/LoginSignupContainer'
 import UserActions from '../modules/UserActions.js'
 import UserStore from '../modules/UserStore.js'
 
+var AUTH_HOST = require('../../../../DEV_CONFIG.json').host
+
 export class AuthContainer extends React.Component<void, Props, void> {
   constructor () {
     super();
@@ -52,7 +54,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
     var returnValue;
     $.ajax({
       type: "POST",
-      url: "http://test.com:1337/checkauth",
+      url: (AUTH_HOST+"checkauth"),
       data: {id:user.id, token:user.token,content:"testing_content"},
       success:function(responseText,requestStatus,fullResponse){
         //console.log("check auth 2nd",responseText)

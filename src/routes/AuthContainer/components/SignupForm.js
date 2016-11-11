@@ -1,5 +1,7 @@
 import React from 'react'
 
+var AUTH_HOST = require('../../../../DEV_CONFIG.json').host
+
 export class SignupForm extends React.Component<void, Props, void> {
   render(){
     return(
@@ -34,7 +36,7 @@ export class SignupForm extends React.Component<void, Props, void> {
           <div className="panel-footer" id="login-footer">
             <div className="row" style={{marginTop:"15px"}}>
               <div className="col-xs-4">
-                <button onClick={this.props.onSubmit.bind(null,"http://test.com:1337/signup/auth")} className="btn btn-block btn-lg btn-success">
+                <button onClick={this.props.onSubmit.bind(null,(AUTH_HOST + "/signup/auth"))} className="btn btn-block btn-lg btn-success">
                 <span className="small-circle"><i className="fa fa-caret-right"></i></span>
                 Create Account
               </button>  

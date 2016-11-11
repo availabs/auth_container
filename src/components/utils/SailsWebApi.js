@@ -7,6 +7,8 @@ var d3 = require('d3'),
 
 var LOADING = 0;
 
+var AUTH_HOST = require('../../../DEV_CONFIG.json').host
+
 var API_HOST = 'http://localhost:12222/';
 // var API_HOST = 'http://mars.availabs.org:12222/';
 // var API_HOST = 'http://mars.availabs.org:12224/';
@@ -531,12 +533,12 @@ function wrapCB(cb) {
 
 function SailsCRUD() {
     console.log("1st",URL)
-    var URL = "http://test.com:1337",
+    var URL = AUTH_HOST,
         method = "GET",
         response = function(d) { return JSON.parse(d.responseText); };
 
     function crud(model) {
-        URL = "http://test.com:1337/"+model;
+        URL = AUTH_HOST+model;
         return crud;
     }
     crud.create = function(data, cb) {

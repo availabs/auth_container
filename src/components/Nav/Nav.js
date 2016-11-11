@@ -5,7 +5,7 @@ import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
 import './Nav.scss'
 import jQuery from 'jquery'
 
-
+var AUTH_HOST = require('../../../DEV_CONFIG.json').host
 
 class Nav extends React.Component<void, Props, void> {
   constructor () {
@@ -88,7 +88,7 @@ class Nav extends React.Component<void, Props, void> {
     e.preventDefault();
     jQuery.ajax({
       type: "POST",
-      url: "http://test.com:1337/logout",
+      url: (AUTH_HOST+"logout"),
       data: {id:user.id, token:user.token},
       success:function(responseText,requestStatus,fullResponse){
         if(responseText == "logged out"){
