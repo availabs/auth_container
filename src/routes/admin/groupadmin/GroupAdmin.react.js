@@ -3,6 +3,7 @@ import GroupTable from "../groupadmin/GroupTable"
 import GroupForm from "../groupadmin/GroupForm"
 import GroupAdminStore from "../groupadmin/GroupAdminStore"
 import GroupAdminActions from "../groupadmin/GroupAdminActions"
+import AuthContainer from '../../AuthContainer/components/AuthContainer'
 
 function getState() {
     return {
@@ -37,15 +38,17 @@ class GroupAdmin extends React.Component<void, Props, void> {
     render() {
         console.log(GroupAdminStore.getAllGroups())
         return (
-            <div title="Group Admin">
-                <div className="col-lg-10">
-                    <GroupTable groups={ this.state.groups }/>
+            <AuthContainer redirect="/groupadmin">
+                <div title="Group Admin">
+                    <div className="col-lg-10">
+                        <GroupTable groups={ this.state.groups }/>
+                    </div>
+                    <div className="col-lg-2">
+                        <GroupForm groups={ this.state.groups }
+                            editTarget={ this.state.editTarget } />
+                    </div>
                 </div>
-                <div className="col-lg-2">
-                    <GroupForm groups={ this.state.groups }
-                        editTarget={ this.state.editTarget } />
-                </div>
-            </div>
+            </AuthContainer>
         )
     }
 }

@@ -5,7 +5,7 @@ import UserStore from '../../AuthContainer/modules/UserStore'
 import UserActions from '../../AuthContainer/modules/UserActions'
 import GroupAdminStore from "../groupadmin/GroupAdminStore"
 import GroupAdminActions from "../groupadmin/GroupAdminActions"
-
+import AuthContainer from '../../AuthContainer/components/AuthContainer'
 
 function getState() {
     var groups = [{ value: "default", display: "user group", style: { display: "none"} }];
@@ -48,9 +48,8 @@ class UserAdmin extends React.Component<void, Props, void> {
     }
 
     render() {
-        console.log("rytest",this.state)
         return (
-            <div>
+            <AuthContainer redirect="/useradmin">
                 <div className="col-lg-10">
                     <UserTable users={ this.state.users }/>
                 </div>
@@ -58,7 +57,7 @@ class UserAdmin extends React.Component<void, Props, void> {
                     <UserForm users={ this.state.users } user={ this.state.user }
                         editTarget={ this.state.editTarget } groups={ this.state.groups }/>
                 </div>
-            </div>
+            </AuthContainer>
         );
     }
 }

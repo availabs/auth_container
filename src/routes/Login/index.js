@@ -1,5 +1,3 @@
-
-
 import Login from './components/Login'
 
 // Sync route definition

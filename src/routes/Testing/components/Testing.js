@@ -7,7 +7,7 @@ export class Testing extends React.Component<void, Props, void> {
     return (  
       <div className='container'>
         <div className='row'>
-          <div className='col-sm-6 col-md-4 offset-md-4'>
+          <div className='col-sm-8 offset-md-4'>
             <div className='card'>
               <div className='card-block'>
                 <AuthContainer redirect="/testing">

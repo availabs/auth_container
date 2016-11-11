@@ -1,6 +1,7 @@
 import React from 'react'
 import { IndexLink, Link,Router, withRouter } from 'react-router'
 import UserStore from '../../routes/AuthContainer/modules/UserStore.js'
+import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
 import './Nav.scss'
 import jQuery from 'jquery'
 
@@ -13,15 +14,18 @@ class Nav extends React.Component<void, Props, void> {
       this.dropClick = this.dropClick.bind(this)
       this.createAdminLinks = this.createAdminLinks.bind(this)
       this.createNavLinks = this.createNavLinks.bind(this)
+      this.logout = this.logout.bind(this)
   }
 
   componentDidMount(){
     var scope = this;
     jQuery('body').bind('click', function(e) {
+      if(scope.state.expanded == "open"){
         if(jQuery(e.target).closest('#adminDrop').length == 0) {
           // click happened outside of .navbar, so hide
           scope.setState({expanded:""})
-        }
+        }          
+      }
     });    
   }
 
@@ -78,33 +82,58 @@ class Nav extends React.Component<void, Props, void> {
     return navButtons
   }
 
+  logout(e){
+    var user = UserStore.getSessionUser()
+    var scope = this;
+    e.preventDefault();
+    jQuery.ajax({
+      type: "POST",
+      url: "http://test.com:1337/logout",
+      data: {id:user.id, token:user.token},
+      success:function(responseText,requestStatus,fullResponse){
+        if(responseText == "logged out"){
+          UserActions.setSessionUser({id:-1,token:"",status:false})   
+          scope.props.router.push({'pathname':scope.props.redirect})     
+        }
+      }
+    });
+  }
+
   render(){
     var user = UserStore.getSessionUser()
     var adminDisplay;
-
-    console.log(this.props.router.isActive("/testing"))
-
+    var logoutButton;
 
     adminDisplay = ((user.userGroup && user.userGroup.type == "sysAdmin") ? "" : "none")
 
     var adminPanel = this.createAdminLinks(adminDisplay)
     var navLinks = this.createNavLinks()
 
+    if(user.id > 0){
+      logoutButton = (
+        <ul style={{float:"right"}}>
+          <li>
+            <button className="btn btn-primary navButton" onClick={this.logout}>
+              Logout
+            </button>
+          </li>
+        </ul>
+      )
+    }
+
+
     return (
       <nav className='navbar navbar-dark blue'>
-        <button className='navbar-toggler hidden-sm-up' type='button' data-toggle='collapse' data-target='#collapseEx2'>
-          <i className='fa fa-bars' />
-        </button>
-
         <div className='container'>
           <div id='topNav'>
             <IndexLink to='/' className='navbar-brand'>
-              Project Name
+              Auth Demo
             </IndexLink>
-            <ul className='collapse navbar-toggleable-xs navbar-left btn-group'>
+            <ul className='navbar-left btn-group col-xs-8'>
               {navLinks}
               {adminPanel}
             </ul>
+            {logoutButton}
           </div>
         </div>
       </nav>

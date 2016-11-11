@@ -1,6 +1,7 @@
 import React from 'react'
 import SysAdminActions from '../sysadmin/SysAdminActions'
 import SysAdminStore from "../sysadmin/SysAdminStore"
+import AuthContainer from '../../AuthContainer/components/AuthContainer'
 
 module.exports = React.createClass({
 
@@ -59,7 +60,7 @@ console.log("<SysAdmin.createAutoRoutes>",request);
             });
         messages.unshift('{"owner":"OWNER","fips":FIPS}')
         return (
-            <div title="System Admin">
+            <AuthContainer redirect="/sysadmin">
                 <div className="col-lg-2">
                     <div className="card">
                         <div className="card-header primary-color white-text">
@@ -104,7 +105,7 @@ console.log("<SysAdmin.createAutoRoutes>",request);
                         </div>
                     : null }
                 </div>
-            </div>
+            </AuthContainer>
         );
     }
 });
