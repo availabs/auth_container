@@ -4,6 +4,8 @@ import createStore from './store/createStore'
 import { Provider } from 'react-redux'
 import { browserHistory, Router } from 'react-router'
 
+import UserActions from './routes/AuthContainer/modules/UserActions'
+
 // ========================================================
 // Store Instantiation
 // ========================================================
@@ -17,6 +19,12 @@ const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
   const routes = require('./routes/index').default(store)
+
+  console.log("main window",window)
+
+  if(window.localStorage.token && window.localStorage.token != ""){
+    UserActions.setSessionUser({token:window.localStorage.token})
+  }
 
   ReactDOM.render(
     <Provider store={store}>

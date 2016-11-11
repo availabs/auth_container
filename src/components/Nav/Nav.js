@@ -91,8 +91,8 @@ class Nav extends React.Component<void, Props, void> {
       url: (AUTH_HOST+"logout"),
       data: {id:user.id, token:user.token},
       success:function(responseText,requestStatus,fullResponse){
-        if(responseText == "logged out"){
-          UserActions.setSessionUser({id:-1,token:"",status:false})   
+        UserActions.setSessionUser({id:-1,token:"",status:false})  
+        if(responseText == "logged out"){ 
           scope.props.router.push({'pathname':scope.props.redirect})     
         }
         else{
@@ -112,7 +112,8 @@ class Nav extends React.Component<void, Props, void> {
     var adminPanel = this.createAdminLinks(adminDisplay)
     var navLinks = this.createNavLinks()
 
-    if(user.id > 0){
+    console.log("nav user",user)
+    if(user.token && user.token != ""){
       logoutButton = (
         <ul style={{float:"right"}}>
           <li>

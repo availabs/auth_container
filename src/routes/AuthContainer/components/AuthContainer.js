@@ -49,16 +49,16 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
   checkAuth(cb){
     var user = UserStore.getSessionUser()
-    //console.log("ry check auth 1st", user)
+    console.log("ry check auth 1st", user)
     var scope = this;
     var returnValue;
     $.ajax({
       type: "POST",
       url: (AUTH_HOST+"checkauth"),
-      data: {id:user.id, token:user.token,content:"testing_content"},
+      data: {token:user.token},
       success:function(responseText,requestStatus,fullResponse){
-        //console.log("check auth 2nd",responseText)
-        cb(responseText.status)
+        console.log("check auth 2nd",responseText)
+        cb(responseText)
       }
 
     });
@@ -74,18 +74,25 @@ export class AuthContainer extends React.Component<void, Props, void> {
     var user = UserStore.getSessionUser()
     var scope = this;
     console.log("component will update",this)
-    if(user.id > 0 && user.status){
+    if(user.token && user.token != ""){
       scope.checkAuth(function(result){
-        if(!result){
-          scope.setState({"error":result})            
+        if(!result.status){
+          scope.setState({"error":result.status})            
         }
-        if(user.status != result){
-          user.status = result;            
-          UserActions.setSessionUser(user)
-        }
+        UserActions.setSessionUser(user)
       })        
     }
+  }
 
+  componentWillMount(){
+    var scope = this;
+    var user = UserStore.getSessionUser()
+    scope.checkAuth(function(result){
+      if(!result.status){
+        scope.setState({"error":result.status})            
+      }
+      UserActions.setSessionUser(user)
+    }) 
   }
 
   render(){
@@ -93,7 +100,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
     //console.log("auth container render, user",this)
     var scope = this;
     //console.log("auth this",this.props.redirect,this)
-    if(user.id > 0){
+    if(user.token && user.token != ""){
       var display = [];
 
       if(user.status){

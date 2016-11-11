@@ -15,10 +15,16 @@ function getCreateUserErrorMessage(error) {
 module.exports = {
    setSessionUser: function(user) {
       console.log("Testing set session user",user)
-       AppDispatcher.dispatch({
-           type: UserConstants.SET_SESSION_USER,
-           user: user
-       })
+      if (typeof (Storage) !== 'undefined') {
+        localStorage.setItem('token', user.token)
+      }
+      if(user.id == -1){
+        localStorage.setItem('token', "")        
+      }
+      AppDispatcher.dispatch({
+          type: UserConstants.SET_SESSION_USER,
+          user: user
+      })
    },
    getAllUsers: function() {
       console.log("Testing get all users")

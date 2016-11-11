@@ -15,8 +15,14 @@ var USERS = [],
 
     USER_GROUP_NAME = null;
 
-var UserStore = assign({}, EventEmitter.prototype, {
+console.log(window.localStorage)
 
+if(window.localStorage && window.localStorage.token != ""){
+    SESSION_USER.token = window.localStorage.token
+}
+
+
+var UserStore = assign({}, EventEmitter.prototype, {
     emitChange: function() {
         this.emit(CHANGE_EVENT);
     },
@@ -26,7 +32,6 @@ var UserStore = assign({}, EventEmitter.prototype, {
     removeChangeListener: function(callback) {
         this.removeListener(CHANGE_EVENT, callback);
     },
-
     getUser: function(id) {
         return USERS[id];
     },
@@ -49,7 +54,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
 });
 
 UserStore.dispatchToken = AppDispatcher.register(function(action) {
-console.log("ryan testing new user store.",action);
+    //console.log("ryan testing new user store.",action);
 
     switch(action.type) {
 
