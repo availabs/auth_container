@@ -95,6 +95,9 @@ class Nav extends React.Component<void, Props, void> {
           UserActions.setSessionUser({id:-1,token:"",status:false})   
           scope.props.router.push({'pathname':scope.props.redirect})     
         }
+        else{
+          console.log("error logging out", responseText)
+        }
       }
     });
   }

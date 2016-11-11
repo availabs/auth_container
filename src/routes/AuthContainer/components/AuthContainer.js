@@ -15,7 +15,8 @@ export class AuthContainer extends React.Component<void, Props, void> {
     this.state = {
       "email":"",
       "password":"",
-      "confirmpassword":""
+      "confirmpassword":"",
+      "error":""
     };
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -31,10 +32,14 @@ export class AuthContainer extends React.Component<void, Props, void> {
       data: {email:this.state.email,password:this.state.password,confirmpassword:this.state.confirmpassword},
       success:function(responseText,requestStatus,fullResponse){
         //console.log("Submitted login/signup", responseText,requestStatus,fullResponse)
+        console.log("ry test submit", responseText)
         if(responseText.token){
           //console.log("Successful login/signup, recieved token",responseText.token)
           UserActions.setSessionUser(responseText)
           scope.props.router.push({'pathname':scope.props.redirect})
+        }
+        else{
+          scope.setState("error":responseText)
         }
       }
     });
@@ -42,7 +47,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
   checkAuth(cb){
     var user = UserStore.getSessionUser()
-    //console.log("ry check auth", user)
+    //console.log("ry check auth 1st", user)
     var scope = this;
     var returnValue;
     $.ajax({
@@ -50,9 +55,10 @@ export class AuthContainer extends React.Component<void, Props, void> {
       url: "http://test.com:1337/checkauth",
       data: {id:user.id, token:user.token,content:"testing_content"},
       success:function(responseText,requestStatus,fullResponse){
-        //console.log("check auth",responseText.status)
+        //console.log("check auth 2nd",responseText)
         cb(responseText.status)
       }
+
     });
   }
 
@@ -65,18 +71,24 @@ export class AuthContainer extends React.Component<void, Props, void> {
   componentWillUpdate(){
     var user = UserStore.getSessionUser()
     var scope = this;
-    //console.log("component will update",this)
-    if(user.id > 0){
+    console.log("component will update",this)
+    if(user.id > 0 && user.status){
       scope.checkAuth(function(result){
-          user.status = result;
+        if(!result){
+          scope.setState({"error":result})            
+        }
+        if(user.status != result){
+          user.status = result;            
           UserActions.setSessionUser(user)
+        }
       })        
     }
+
   }
 
   render(){
     var user = UserStore.getSessionUser()
-    console.log("auth container render, user",user)
+    //console.log("auth container render, user",this)
     var scope = this;
     //console.log("auth this",this.props.redirect,this)
     if(user.id > 0){
@@ -95,6 +107,7 @@ export class AuthContainer extends React.Component<void, Props, void> {
 
     return(
       <div >
+        <h1 style={{color:"red"}}>{this.state.error}</h1>
         {display}
       </div>
     )
