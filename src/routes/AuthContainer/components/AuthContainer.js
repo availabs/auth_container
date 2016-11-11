@@ -6,6 +6,9 @@ import NoPermission from '../components/NoPermission'
 import LogoutForm from '../components/LogoutForm'
 import LoginSignupContainer from '../components/LoginSignupContainer'
 
+import UserActions from '../modules/UserActions.js'
+import UserStore from '../modules/UserStore.js'
+
 export class AuthContainer extends React.Component<void, Props, void> {
   constructor () {
     super();
@@ -28,38 +31,43 @@ export class AuthContainer extends React.Component<void, Props, void> {
       url: url,
       data: {email:this.state.email,password:this.state.password,confirmpassword:this.state.confirmpassword},
       success:function(responseText,requestStatus,fullResponse){
-        console.log(responseText,requestStatus,fullResponse)
+        //console.log("Submitted login/signup", responseText,requestStatus,fullResponse)
         if(responseText.token){
-          scope.props.userIdUpdate({id:responseText.id,token:responseText.token,status:responseText.status})
+          console.log("Successful login/signup, recieved token",responseText.token)
+          UserActions.setSessionUser({id:responseText.id,token:responseText.token,status:responseText.status})
           scope.props.router.push({'pathname':scope.props.redirect})
         }
       }
     });
   }
 
-  checkAuth(id,token,cb){
+  checkAuth(cb){
+    var user = UserStore.getSessionUser()
+    //console.log("ry check auth", user)
     var scope = this;
     var returnValue;
     $.ajax({
       type: "POST",
-      url: "http://localhost:1337/checkauth",
-      data: {id:id, token:token,content:"testing_content"},
+      url: "http://test.com:1337/checkauth",
+      data: {id:user.id, token:user.token,content:"testing_content"},
       success:function(responseText,requestStatus,fullResponse){
+        //console.log("check auth",responseText.status)
         cb(responseText.status)
       }
     });
   }
 
   logout(e){
+    var user = UserStore.getSessionUser()
     var scope = this;
     e.preventDefault();
     $.ajax({
       type: "POST",
-      url: "http://localhost:1337/logout",
-      data: {id:scope.props.authContainer.id, token:scope.props.authContainer.token},
+      url: "http://test.com:1337/logout",
+      data: {id:user.id, token:user.token},
       success:function(responseText,requestStatus,fullResponse){
         if(responseText == "logged out"){
-          scope.props.userIdUpdate({id:-1,token:"",status:false})   
+          UserActions.setSessionUser({id:-1,token:"",status:false})   
           scope.props.router.push({'pathname':scope.props.redirect})     
         }
       }
@@ -72,35 +80,26 @@ export class AuthContainer extends React.Component<void, Props, void> {
     this.setState(newState)
   }
 
-  shouldComponentUpdate(nextProps,nextState){
-    //console.log(nextProps.authContainer,this.props.authContainer)
-    if(nextProps.authContainer.id != this.props.authContainer.id ||
-      nextProps.authContainer.token != this.props.authContainer.token ||
-      nextProps.authContainer.status != this.props.authContainer.status){
-      return true
-    }
-    else{
-      return false
-    }
-  }
-
   componentWillUpdate(){
+    var user = UserStore.getSessionUser()
     var scope = this;
-    console.log(this)
-    if(this.props.authContainer.id > 0){
-      scope.checkAuth(this.props.authContainer.id,this.props.authContainer.token,function(result){
-          scope.props.authStatusUpdate(result)
+    //console.log("component will update",this)
+    if(user.id > 0){
+      scope.checkAuth(function(result){
+          UserActions.setSessionUser({id:user.id,token:user.token,status:result})
       })        
     }
   }
 
   render(){
+    var user = UserStore.getSessionUser()
+    console.log("auth container render, user",user)
     var scope = this;
-    console.log("auth this",this.props.redirect,this)
-    if(this.props.authContainer.id > 0){
+    //console.log("auth this",this.props.redirect,this)
+    if(user.id > 0){
       var display = [];
 
-      if(this.props.authContainer.status){
+      if(user.status){
         display.push(scope.props.children)  
       }
       else{
@@ -121,9 +120,6 @@ export class AuthContainer extends React.Component<void, Props, void> {
       </div>
     )
   }
-}
-AuthContainer.propTypes = {
-  authContainer     : React.PropTypes.object.isRequired
 }
 
 export default withRouter(AuthContainer)

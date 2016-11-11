@@ -1,10 +1,9 @@
 import React from 'react'
-import AuthContainer from '../../AuthContainer/containers/AuthContainerContainer'
+import AuthContainer from '../../AuthContainer/components/AuthContainer'
 
 
 export class Testing extends React.Component<void, Props, void> {
   render(){
-
     return (  
       <div className='container'>
         <div className='row'>
@@ -21,14 +20,7 @@ export class Testing extends React.Component<void, Props, void> {
         </div>
       </div>
     )
-
   }
-
-
-
 }
-
-
-
 
 export default Testing
