@@ -60,7 +60,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(action) {
 
     case UserConstants.SET_SESSION_USER:
         SESSION_USER = action.user;
-        //UserStore.emitChange();
+        UserStore.emitChange();
         break;
 
     case UserConstants.GET_ALL_USERS:

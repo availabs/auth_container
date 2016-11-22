@@ -3,25 +3,29 @@ import { IndexLink, Link,Router, withRouter } from 'react-router'
 import UserStore from '../../routes/AuthContainer/modules/UserStore.js'
 import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
 import './Nav.scss'
-import jQuery from 'jquery'
+import $ from 'jquery'
 
 var AUTH_HOST = require('../../../DEV_CONFIG.json').host
 
 class Nav extends React.Component<void, Props, void> {
   constructor () {
       super();
-      this.state = {expanded:""}
+      this.state = {
+        expanded:""
+      }
       this.dropClick = this.dropClick.bind(this)
       this.createAdminLinks = this.createAdminLinks.bind(this)
       this.createNavLinks = this.createNavLinks.bind(this)
       this.logout = this.logout.bind(this)
+      this.forceUpdate = this.forceUpdate.bind(this)
   }
 
   componentDidMount(){
     var scope = this;
-    jQuery('body').bind('click', function(e) {
+    UserStore.addChangeListener(this.forceUpdate)
+    $('body').bind('click', function(e) {
       if(scope.state.expanded == "open"){
-        if(jQuery(e.target).closest('#adminDrop').length == 0) {
+        if($(e.target).closest('#adminDrop').length == 0) {
           // click happened outside of .navbar, so hide
           scope.setState({expanded:""})
         }          
@@ -42,7 +46,6 @@ class Nav extends React.Component<void, Props, void> {
     var scope = this;
     var adminOptions = ['groupadmin','useradmin','sysadmin'];
     var adminBool = false;
-
 
     var adminButtons = adminOptions.map(title => {
       //Part of hacky workaround to make admin nav dropdown work
@@ -68,9 +71,7 @@ class Nav extends React.Component<void, Props, void> {
   }
 
   createNavLinks(){
-
     var navOptions = ["login","testing"]  
-
     var navButtons = navOptions.map(title => {
       return (
         <li key={title} id={title} className={"btn btn-primary navButton " + (this.props.router.isActive(("/"+title)) ? "active" : "")}>
@@ -86,7 +87,7 @@ class Nav extends React.Component<void, Props, void> {
     var user = UserStore.getSessionUser()
     var scope = this;
     e.preventDefault();
-    jQuery.ajax({
+    $.ajax({
       type: "POST",
       url: (AUTH_HOST+"logout"),
       data: {id:user.id, token:user.token},
@@ -103,21 +104,22 @@ class Nav extends React.Component<void, Props, void> {
   }
 
   render(){
+    var scope = this;
     var user = UserStore.getSessionUser()
     var adminDisplay;
     var logoutButton;
 
     adminDisplay = ((user.userGroup && user.userGroup.type == "sysAdmin") ? "" : "none")
 
-    var adminPanel = this.createAdminLinks(adminDisplay)
-    var navLinks = this.createNavLinks()
+    var adminPanel = scope.createAdminLinks(adminDisplay)
+    var navLinks = scope.createNavLinks()
 
-    console.log("nav user",user)
+    console.log("nav scope",scope)
     if(user.token && user.token != ""){
       logoutButton = (
         <ul style={{float:"right"}}>
           <li>
-            <button className="btn btn-primary navButton" onClick={this.logout}>
+            <button className="btn btn-primary navButton" onClick={scope.logout}>
               Logout
             </button>
           </li>

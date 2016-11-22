@@ -38,10 +38,11 @@ export class AuthContainer extends React.Component<void, Props, void> {
         if(responseText.token){
           //console.log("Successful login/signup, recieved token",responseText.token)
           UserActions.setSessionUser(responseText)
+          scope.setState({"error":null})
           scope.props.router.push({'pathname':scope.props.redirect})
         }
         else{
-          scope.setState("error":responseText)
+          scope.setState({"error":responseText})
         }
       }
     });
@@ -57,10 +58,15 @@ export class AuthContainer extends React.Component<void, Props, void> {
       url: (AUTH_HOST+"checkauth"),
       data: {token:user.token},
       success:function(responseText,requestStatus,fullResponse){
-        console.log("check auth 2nd",responseText)
-        cb(responseText)
+        if(responseText.error){
+          console.log("check auth 2nd FAIL",responseText)
+          cb(responseText)
+        }
+        if(responseText.userName){
+          console.log("check auth 2nd SUCCESS",responseText)
+          cb(responseText)          
+        }
       }
-
     });
   }
 
@@ -70,34 +76,49 @@ export class AuthContainer extends React.Component<void, Props, void> {
     this.setState(newState)
   }
 
-  componentWillUpdate(){
-    var user = UserStore.getSessionUser()
-    var scope = this;
-    console.log("component will update",this)
-    if(user.token && user.token != ""){
-      scope.checkAuth(function(result){
-        if(!result.status){
-          scope.setState({"error":result.status})            
-        }
-        UserActions.setSessionUser(user)
-      })        
-    }
-  }
-
   componentWillMount(){
     var scope = this;
     var user = UserStore.getSessionUser()
     scope.checkAuth(function(result){
-      if(!result.status){
+      console.log("checkauth cb",result)
+      user.status = result.status
+
+      //Means expired token
+      //Log in again
+      if(result.error && result.error.message == "jwt expired"){
+        user.token = "";
+        user.loggedIn = false;
+        user.userGroup = null;
+        user.userName = ""
+        user.userId = -1
+        UserActions.setSessionUser(user)
+        scope.setState({"error":"Your session has expired."})       
+      }
+      else if(result.error && result.error.message == "jwt must be provided"){
+        user.token = "";
+        user.loggedIn = false;
+        user.userGroup = null;
+        user.userName = ""
+        user.userId = -1
+        UserActions.setSessionUser(user)
+        scope.setState({"error":null})       
+      }
+      //Means no permission
+      else if(!result.status){
+        UserActions.setSessionUser(result)
         scope.setState({"error":result.status})            
       }
-      UserActions.setSessionUser(user)
+      //We good
+      else{
+        UserActions.setSessionUser(result)
+        scope.setState({"error":null}) 
+      }
     }) 
   }
 
   render(){
     var user = UserStore.getSessionUser()
-    //console.log("auth container render, user",this)
+    console.log("auth container render, user",user)
     var scope = this;
     //console.log("auth this",this.props.redirect,this)
     if(user.token && user.token != ""){
