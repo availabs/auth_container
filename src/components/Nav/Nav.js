@@ -1,11 +1,11 @@
 import React from 'react'
 import { IndexLink, Link,Router, withRouter } from 'react-router'
-import UserStore from '../../routes/AuthContainer/modules/UserStore.js'
-import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
 import './Nav.scss'
 import $ from 'jquery'
 
-var AUTH_HOST = require('../../../DEV_CONFIG.json').host
+import UserStore from '../../routes/AuthContainer/modules/UserStore.js'
+import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
+import LogoutButton from '../../routes/AuthContainer/components/LogoutButton'
 
 class Nav extends React.Component<void, Props, void> {
   constructor () {
@@ -16,7 +16,6 @@ class Nav extends React.Component<void, Props, void> {
       this.dropClick = this.dropClick.bind(this)
       this.createAdminLinks = this.createAdminLinks.bind(this)
       this.createNavLinks = this.createNavLinks.bind(this)
-      this.logout = this.logout.bind(this)
       this.forceUpdate = this.forceUpdate.bind(this)
   }
 
@@ -83,31 +82,10 @@ class Nav extends React.Component<void, Props, void> {
     return navButtons
   }
 
-  logout(e){
-    var user = UserStore.getSessionUser()
-    var scope = this;
-    e.preventDefault();
-    $.ajax({
-      type: "POST",
-      url: (AUTH_HOST+"logout"),
-      data: {id:user.id, token:user.token},
-      success:function(responseText,requestStatus,fullResponse){
-        UserActions.setSessionUser({id:-1,token:"",status:false})  
-        if(responseText == "logged out"){ 
-          scope.props.router.push({'pathname':scope.props.redirect})     
-        }
-        else{
-          console.log("error logging out", responseText)
-        }
-      }
-    });
-  }
-
   render(){
     var scope = this;
     var user = UserStore.getSessionUser()
     var adminDisplay;
-    var logoutButton;
 
     adminDisplay = ((user.userGroup && user.userGroup.type == "sysAdmin") ? "" : "none")
 
@@ -115,17 +93,6 @@ class Nav extends React.Component<void, Props, void> {
     var navLinks = scope.createNavLinks()
 
     console.log("nav scope",scope)
-    if(user.token && user.token != ""){
-      logoutButton = (
-        <ul style={{float:"right"}}>
-          <li>
-            <button className="btn btn-primary navButton" onClick={scope.logout}>
-              Logout
-            </button>
-          </li>
-        </ul>
-      )
-    }
 
 
     return (
@@ -139,7 +106,7 @@ class Nav extends React.Component<void, Props, void> {
               {navLinks}
               {adminPanel}
             </ul>
-            {logoutButton}
+            {(user.token && user.token != "") ? <LogoutButton /> : <div></div>}
           </div>
         </div>
       </nav>
