@@ -3,7 +3,6 @@ import $ from 'jquery'
 import { withRouter } from 'react-router'
 
 import NoPermission from '../components/NoPermission'
-import LogoutForm from '../components/LogoutForm'
 import LoginSignupContainer from '../components/LoginSignupContainer'
 
 import UserActions from '../modules/UserActions.js'
