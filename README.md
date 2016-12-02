@@ -22,6 +22,10 @@ also contains user management GUI
 
 To move to a different project, you need:
 
+To npm install: jquery, flux, keymirror, d3@^3.5.6
+
+DEV_CONFIG.json in root of project. Set host to location of auth server
+
 src/components/constants
 
 src/components/utils
