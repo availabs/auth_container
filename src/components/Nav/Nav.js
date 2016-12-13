@@ -6,6 +6,7 @@ import $ from 'jquery'
 import UserStore from '../../routes/AuthContainer/modules/UserStore.js'
 import UserActions from '../../routes/AuthContainer/modules/UserActions.js'
 import LogoutButton from '../../routes/AuthContainer/components/LogoutButton'
+import LoginMenu from '../../routes/AuthContainer/components/LoginMenu'
 
 class Nav extends React.Component<void, Props, void> {
   constructor () {
@@ -106,7 +107,7 @@ class Nav extends React.Component<void, Props, void> {
               {navLinks}
               {adminPanel}
             </ul>
-            {(user.token && user.token != "") ? <LogoutButton /> : <div></div>}
+            {(user.token && user.token != "") ? <LogoutButton /> : <LoginMenu />}
           </div>
         </div>
       </nav>

@@ -1,7 +1,5 @@
 #auth_container
 
-NPM install, etc. 
-
 Can change the auth server in DEV_CONFIG.json
 
 Put restricted content as children of `<AuthContainer>`. Example:
@@ -32,7 +30,7 @@ src/components/utils
 
 src/routes/AuthContainer
 
-For admin portions, you also need:
+For admin portions, also npm install react-bootstrap. You also need:
 
 src/routes/admin
 

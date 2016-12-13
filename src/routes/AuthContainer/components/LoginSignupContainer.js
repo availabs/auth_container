@@ -24,12 +24,13 @@ export class LoginSignupContainer extends React.Component<void, Props, void> {
   }
 
   render(){
+    var nav = this.props.nav ? this.props.nav : false
     if(this.state.form == "signup"){
-      return (<SignupForm formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />)
+      return (<SignupForm nav={nav} formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />)
     }
     else{
       return (
-        <LoginForm formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />
+        <LoginForm nav={nav} formChange={this.formChange} onChange={this.props.onChange} onSubmit={this.props.onSubmit} />
         )
     }
 

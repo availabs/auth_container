@@ -5,9 +5,9 @@ var AUTH_HOST = require('../../../../DEV_CONFIG.json').host
 export class SignupForm extends React.Component<void, Props, void> {
   render(){
     return(
-      <div className='card-block'>
-        <h4 className='card-title'>Fill out the form below to create an account</h4>
-        <form action="/signup/auth" method="POST" className="form-signin">
+      <div id={this.props.nav ? "navLogin" : ""} className={this.props.nav ? "" : "card-block"}>
+        {this.props.nav ? "" : <h4 className='card-title'>Fill out the form below to create an account</h4>}
+        <form method="POST" className="form-signin">
           <fieldset>
             <div className="panel-body">
               <div className="form-group">
@@ -35,13 +35,13 @@ export class SignupForm extends React.Component<void, Props, void> {
           </fieldset>
           <div className="panel-footer" id="login-footer">
             <div className="row" style={{marginTop:"15px"}}>
-              <div className="col-xs-4">
+              <div className={this.props.nav ? "navUserButton" : "col-xs-4"}>
                 <button onClick={this.props.onSubmit.bind(null,(AUTH_HOST + "signup/auth"))} className="btn btn-block btn-lg btn-success">
-                <span className="small-circle"><i className="fa fa-caret-right"></i></span>
-                Create Account
-              </button>  
+                  <span className="small-circle"><i className="fa fa-caret-right"></i></span>
+                  Create Account
+                </button>  
               </div>
-              <div className="col-xs-4 offset-xs-3">   
+              <div className={this.props.nav ? "navUserButton" : "col-xs-4 offset-xs-3"}>  
                 <button id="signupSwitch" className="btn btn-block" onClick={this.props.formChange}>
                   Already have an account?
                 </button>

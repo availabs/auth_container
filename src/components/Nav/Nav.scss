@@ -1,3 +1,5 @@
+$nav-login-padding:.35em;
+
 .route--active {
   font-weight: bold;
   text-decoration: underline;
@@ -35,3 +37,41 @@
 #adminDrop .dropdown-menu{
   padding:0;
 }
+
+#navLogin fieldset{
+  border:none;
+  padding:$nav-login-padding ;
+}
+
+#navLogin .form-group.last{
+  margin-bottom:0px;
+}
+
+#navLogin input{
+  margin:0;
+  border-bottom:1px solid #ccc;
+  color:#55595c;
+  transition:none;
+}
+
+input[type=email]::-webkit-input-placeholder,input[type=password]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #55595c!important;
+  opacity:  .8!important;
+}
+input[type=email]:-moz-placeholder,input[type=password]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #55595c!important;
+  opacity:  .8!important;
+}
+input[type=email]::-moz-placeholder,input[type=password]::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #55595c!important;
+  opacity:  .8!important;
+}
+input[type=email]:-ms-input-placeholder,input[type=password]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #55595c!important;
+  opacity:  .8!important;
+}
+
+.navUserButton{
+  padding:0px (1em + $nav-login-padding);
+}
+
