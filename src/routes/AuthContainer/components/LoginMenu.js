@@ -73,6 +73,9 @@ export class LoginMenu extends React.Component<void, Props, void> {
       }
     });    
   }
+  componentWillUnmount(){
+    $('body').unbind('click')
+  }
   onChange(e){
     var newState = {};
     newState[e.target.id] = e.target.value
@@ -98,7 +101,7 @@ export class LoginMenu extends React.Component<void, Props, void> {
                 <LoginSignupContainer nav={true} key="loginOrSignupForm" onChange={this.onChange} onSubmit={this.onSubmit}/>
               </li>
             </ul>
-        </li>
+          </li>
         </ul>
       )
   }
