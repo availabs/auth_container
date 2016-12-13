@@ -24,7 +24,7 @@ export class SignupForm extends React.Component<void, Props, void> {
                       required/>
                 </div>
               </div>
-              <div className="form-group">
+              <div className="form-group last">
                 <div className="input-group">
                   <input onChange={this.props.onChange} id="confirmpassword" name="confirmpassword" type="password"
                       className="form-control input-lg" placeholder="Confirm Password"
@@ -37,8 +37,7 @@ export class SignupForm extends React.Component<void, Props, void> {
             <div className="row" style={{marginTop:"15px"}}>
               <div className={this.props.nav ? "navUserButton" : "col-xs-4"}>
                 <button onClick={this.props.onSubmit.bind(null,(AUTH_HOST + "signup/auth"))} className="btn btn-block btn-lg btn-success">
-                  <span className="small-circle"><i className="fa fa-caret-right"></i></span>
-                  Create Account
+                  <span>Create Account</span>
                 </button>  
               </div>
               <div className={this.props.nav ? "navUserButton" : "col-xs-4 offset-xs-3"}>  
