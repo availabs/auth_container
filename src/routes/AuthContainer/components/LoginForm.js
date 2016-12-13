@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../../components/Nav/Nav.scss'
+
 var AUTH_HOST = require('../../../../DEV_CONFIG.json').host
 
 export class LoginForm extends React.Component<void, Props, void> {
